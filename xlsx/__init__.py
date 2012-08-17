@@ -19,10 +19,9 @@ class DomZip(object):
 
 class Workbook(object):
 
-    sheetsByName = {}
-    sheetsByIndex = []
-
     def __init__(self, filename):
+        self.sheetsByName = {}
+        self.sheetsByIndex = []
         self.filename = filename
         self.domzip = DomZip(filename)
         self.sharedStrings = SharedStrings(self)
@@ -36,7 +35,16 @@ class Workbook(object):
             self.sheetsByIndex.append(sheet)
             self.sheetsByName[name] = sheet
             assert sheet.name in self.sheetsByName
-
+        
+        self._has_signature = False
+        self.signatureEntry = None
+        try :
+            self.signatureEntry = self.domzip["_xmlsignatures/sig1.xml"]
+            if self.signatureEntry :
+                self._has_signature = True
+        except KeyError as ex :
+            pass
+        
     def keys(self):
         return self.sheetsByName.keys()
 
@@ -48,6 +56,32 @@ class Workbook(object):
             return self.sheetsByIndex[key]
         else:
             return self.sheetsByName[key]
+
+
+    def has_signatures(self):
+        return self._has_signature
+    
+    
+    def verify_signatures(self):
+        if self._has_signature :
+            keyInfo = data = cert = None
+            keyInfo = self.signatureEntry.firstChild.getElementsByTagName('KeyInfo')
+            if keyInfo :
+                data = keyInfo[0].getElementsByTagName('X509Data')
+                if data :
+                    cert = data[0].getElementsByTagName('X509Certificate')
+                    
+            if cert :
+                from M2Crypto.X509 import load_cert_string
+                x509_cert = load_cert_string(cert[0].nodeValue)
+                print "X509 Certificate Created: {0}".format(x509_cert)
+                if x509_cert : 
+                    result = x509_cert.verify(pkey=None)
+                    print "X509 Certificate Verified: {0}".format(result)
+                    if result : 
+                        return True
+        return False
+                
 
 class SharedStrings(list):
     def __init__(self, workbook):

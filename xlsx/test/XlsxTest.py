@@ -1,4 +1,4 @@
-from pyxlsx import Workbook
+from xlsx import Workbook
 import os
 import os.path
 
