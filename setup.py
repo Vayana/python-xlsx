@@ -1,7 +1,7 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
-    version="0.1",
+    version="0.1vayana",
     name='python-xlsx',
     description="Tiny python code for parsing data from Microsoft's Office Open XML Spreadsheet format",
     long_description="",

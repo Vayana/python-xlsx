@@ -1,2 +1,5 @@
+/build
+/dist
+/python_xlsx.egg-info
 *.pyc
-ignored-files/
+*.swp
