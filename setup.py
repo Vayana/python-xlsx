@@ -20,10 +20,7 @@ setup(
         "xlsx"
     ],
     install_requires=[
-      'M2Crypto == 0.21.1_vayana',
-    ],
-    dependency_links = [
-      'https://github.com/Vayana/m2crypto/tarball/ssl2-fix#egg=M2Crypto-0.21.1_vayana'
+      'M2Crypto == 0.21.1vayana',
     ],
     zip_safe=False,
     include_package_data=True,
