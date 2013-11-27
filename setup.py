@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    version="0.1vayana",
+    version="0.1vayana2",
     name='python-xlsx',
     description="Tiny python code for parsing data from Microsoft's Office Open XML Spreadsheet format",
     long_description="",
@@ -20,7 +20,7 @@ setup(
         "xlsx"
     ],
     install_requires=[
-      'M2Crypto == 0.21.1vayana',
+      'M2Crypto == 0.21.1vayana2',
     ],
     zip_safe=False,
     include_package_data=True,
