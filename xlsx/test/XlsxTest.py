@@ -4,7 +4,7 @@ import os.path
 
 import unittest
 
-TEST_PATH = os.path.realpath(os.path.join(__file__, '..','..','..','..','..','..','testdata'))
+TEST_PATH = os.path.realpath(os.path.join(__file__, '..','..','..','testdata'))
 TEST_FILE = os.path.join(TEST_PATH, os.listdir(TEST_PATH)[0])
 
 class  WorkbookTestCase(unittest.TestCase):
@@ -45,6 +45,18 @@ class  WorkbookTestCase(unittest.TestCase):
         workbook = Workbook(self.filename)
         sheet = workbook[0]
         assert sheet["A2"].value == "Level A", "Column [%s] does not match expected [%s], is instead [%s]"%("A2", "Level A", sheet["A1"])
+
+    def testSignaturePresence1(self):
+        workbook = Workbook(TEST_PATH + "/halonix_success.xlsx")
+        assert workbook.has_signatures()
+
+    def testSignaturePresence21(self):
+        workbook = Workbook(TEST_PATH + "/anupamra-01.xlsx")
+        assert not workbook.has_signatures()
+
+    def testSignaturePresence22(self):
+        workbook = Workbook(TEST_PATH + "/anupamra-02.xlsx")
+        assert workbook.has_signatures()
 
 if __name__ == '__main__':
     unittest.main()

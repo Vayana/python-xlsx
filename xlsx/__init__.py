@@ -12,10 +12,13 @@ class DomZip(object):
 
     def __getitem__(self, key):
         # @type ziphandle ZipFile
-        ziphandle = zipfile.ZipFile(self.filename)
-        dom = minidom.parseString(ziphandle.read(key))
-        ziphandle.close()
-        return dom
+        try:
+            ziphandle = zipfile.ZipFile(self.filename)
+            dom = minidom.parseString(ziphandle.read(key))
+            ziphandle.close()
+            return dom
+        except KeyError:
+            return None
 
 class Workbook(object):
 
@@ -42,6 +45,10 @@ class Workbook(object):
             self.signatureEntry = self.domzip["_xmlsignatures/sig1.xml"]
             if self.signatureEntry :
                 self._has_signature = True
+            else:
+                self.signatureEntry = self.domzip["_xmlsignatures/sig2.xml"]
+                if self.signatureEntry:
+                    self._has_signature = True
         except KeyError as ex :
             pass
         

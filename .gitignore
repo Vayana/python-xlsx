@@ -3,3 +3,5 @@
 /python_xlsx.egg-info
 *.pyc
 *.swp
+.idea
+
